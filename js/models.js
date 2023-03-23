@@ -153,7 +153,14 @@ class User {
       url: `${BASE_URL}/login`,
       method: "POST",
       data: { user: { username, password } },
-    });
+    }).catch((error)=> {
+      const errorStatus = error.response.statusText
+      if (errorStatus === 'Not Found') {
+        alert('Username not found. Please check your spelling or register for a new account!')
+      } else if (errorStatus === 'Unauthorized') {
+        alert('Password incorrect. Please try again!')
+      }
+    })
 
     let { user } = response.data;
 
