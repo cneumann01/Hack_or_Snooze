@@ -4,8 +4,19 @@
  * Handling navbar clicks and updating navbar
  */
 
-/** Show main list of all stories when click site name */
 
+function checkForLoggedInUser(clickEvent) {
+  if (!currentUser) {
+    const pageName = clickEvent.currentTarget.innerText
+    $pleaseLoginLabel.text(`Please login to use the ${pageName} page.`);
+    $pleaseLoginLabel.show();
+    return false;
+  } else {
+    return true;
+  }
+}
+
+/** Show main list of all stories when click site name */
 function navAllStories(evt) {
   console.debug("navAllStories", evt);
   hidePageComponents();
@@ -17,8 +28,10 @@ $body.on("click", "#nav-all", navAllStories);
 function navSubmitClick(evt) {
   console.debug("navSubmitClick", evt);
   hidePageComponents();
-  $submitForm.show();
-  putStoriesOnPage();
+  if (checkForLoggedInUser(evt)) {
+    $submitForm.show();
+    putStoriesOnPage();
+  }
 }
 $navSubmit.on("click", navSubmitClick);
 
@@ -26,7 +39,9 @@ $navSubmit.on("click", navSubmitClick);
 function navFavoritesClick(evt) {
   console.debug("navFavoritesClick", evt);
   hidePageComponents();
-  putFavoritesOnPage();
+  if (checkForLoggedInUser(evt)) {
+    putFavoritesOnPage()
+  }
 }
 $navFavorites.on("click", navFavoritesClick);
 
@@ -34,7 +49,9 @@ $navFavorites.on("click", navFavoritesClick);
 function navMyStoriesClick(evt) {
   console.debug("navMyStoriesClick", evt);
   hidePageComponents();
-  putMyStoriesOnPage();
+  if (checkForLoggedInUser(evt)) {
+    putMyStoriesOnPage();
+  }
 }
 $navMyStories.on("click", navMyStoriesClick);
 
